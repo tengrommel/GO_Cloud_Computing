@@ -6,6 +6,7 @@ import (
 	"strings"
 	//"encoding/json"
 	"encoding/json"
+	"strconv"
 )
 
 /*
@@ -33,24 +34,43 @@ func handlerHello(w http.ResponseWriter, r *http.Request)  {
 	fmt.Fprintf(w, "Hello %s %s!\n", name, parts[3])
 }
 
+func replyWithAllStudents(w http.ResponseWriter, db *StudentsDB) {
+	if db.students == nil {
+		json.NewEncoder(w).Encode([]Student{})
+	} else {
+		json.NewEncoder(w).Encode(db.students)
+	}
+}
+
+func replyWithStudent(w http.ResponseWriter, db *StudentsDB, i int)  {
+	if db.Count() < i {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+	json.NewEncoder(w).Encode(db.Get(i))
+}
+
 func handlerStudent(w http.ResponseWriter, r *http.Request)  {
+	//
+	db := StudentsDB{}
+	if r.Method == "POST"{
+		http.Error(w, "not implemented yet", http.StatusNotImplemented)
+		return
+	}
+	//
 	http.Header.Add(w.Header(),"content-type", "application/json")
 	parts := strings.Split(r.URL.Path, "/")
-	s0 := Student{"Tom", 21}
-	s1 := Student{"Mark", 16}
-	students := []Student{
-		s0,
-		s1,
-	}
+
 	if len(parts) == 3{
 		if parts[2] == ""{
-			json.NewEncoder(w).Encode(students)
+			replyWithAllStudents(w, &db)
 		}else {
-			if parts[2] == "0"{
-				json.NewEncoder(w).Encode(s0)
-			}else if parts[2] == "1"{
-				json.NewEncoder(w).Encode(s1)
+			i, err :=strconv.Atoi(parts[2])
+			if err != nil{
+				http.Error(w,http.StatusText(http.StatusBadRequest) ,http.StatusBadRequest)
+				return
 			}
+			replyWithStudent(w, &db, i)
 		}
 	}else{
 		// handle error
@@ -59,6 +79,7 @@ func handlerStudent(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 }
+
 func main() {
 	http.HandleFunc("/hello/", handlerHello)
 	http.HandleFunc("/student/", handlerStudent)
