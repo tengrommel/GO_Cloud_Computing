@@ -23,3 +23,12 @@ Concurrency(goroutines, channels)<br>
 Interface<br>
 No type inheritance
 
+## Object oriented programming
+
+- struct
+- methods(function with struct receiver)
+-interfaces
+
+## Functions
+
+- Go is derived from C.It has strong functional feel.
