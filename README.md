@@ -32,3 +32,9 @@ No type inheritance
 ## Functions
 
 - Go is derived from C.It has strong functional feel.
+
+## Concurrency
+
+- Go routines: go <function call>
+- Channels: chan <type> in/out inout
+- Select statement
