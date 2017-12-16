@@ -3,35 +3,43 @@ import "testing"
 
 func Test_addStudent(t *testing.T) {
 	db := StudentsDB{}
-	db.Add(Student{"Tom", 21})
+	sData := Student{"Tom", 21, "id1"}
+	db.Init()
+	db.Add(sData)
 	if db.Count() != 1 {
 		t.Error("Wrong student count")
 	}
-	s := db.Get(0)
+	s, _ := db.Get(sData.Id)
 	if s.Name != "Tom" {
 		t.Error("Student Tom was not added.")
 	}
 }
 
 func Test_multipleStudents(t *testing.T)  {
-	testData := []Student{
-		Student{"Bob", 21},
-		Student{"Alice", 20},
-		Student{"ten", 36},
+	testData := map[string]Student{
+		"id0":{"Bob", 21, "id0"},
+		"id1":{"Alice", 20, "id1"},
+		"id2":{"ten", 36, "id2"},
 	}
 	db := StudentsDB{}
+	db.Init()
 	for _, s := range testData{
 		db.Add(s)
 	}
 	if db.Count()!=len(testData){
 		t.Error("Wrong number of students")
 	}
-	for i, _:= range db.students  {
-		if (db.Get(i).Name!=testData[i].Name) {
+	for key := range db.students  {
+		s , _:= db.Get(key)
+		sTest, _ := testData[key]
+		if s.Name!=sTest.Name {
 			t.Error("Wrong name")
 		}
-		if (db.Get(i).Age!=testData[i].Age) {
-			t.Error("Wrong age")
+		if s.Age!=sTest.Age{
+			t.Error("Wrong Age")
+		}
+		if s.Id!=sTest.Id {
+			t.Error("Wrong Id")
 		}
 	}
 

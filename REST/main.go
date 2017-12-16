@@ -4,22 +4,8 @@ import (
 	"net/http"
 	"fmt"
 	"strings"
-	//"encoding/json"
 	"encoding/json"
-	"strconv"
 )
-
-/*
-{
-	"name": <value>,	e.g. "top"
-	"age": <value>		e.g. 21
-}
- */
-
-type Student struct {
-	Name string `json:"name"`
-	Age int `json:"age"`
-}
 
 
 func handlerHello(w http.ResponseWriter, r *http.Request)  {
@@ -42,17 +28,20 @@ func replyWithAllStudents(w http.ResponseWriter, db *StudentsDB) {
 	}
 }
 
-func replyWithStudent(w http.ResponseWriter, db *StudentsDB, i int)  {
-	if db.Count() < i {
+func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string)  {
+	s, ok := db.Get(id)
+	if !ok {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
 	}
-	json.NewEncoder(w).Encode(db.Get(i))
+	json.NewEncoder(w).Encode(s)
 }
 
 func handlerStudent(w http.ResponseWriter, r *http.Request)  {
 	//
 	db := StudentsDB{}
+	db.Init()
+	db.Add(Student{"tom", 21, "id0"})
 	if r.Method == "POST"{
 		http.Error(w, "not implemented yet", http.StatusNotImplemented)
 		return
@@ -61,23 +50,15 @@ func handlerStudent(w http.ResponseWriter, r *http.Request)  {
 	http.Header.Add(w.Header(),"content-type", "application/json")
 	parts := strings.Split(r.URL.Path, "/")
 
-	if len(parts) == 3{
-		if parts[2] == ""{
-			replyWithAllStudents(w, &db)
-		}else {
-			i, err :=strconv.Atoi(parts[2])
-			if err != nil{
-				http.Error(w,http.StatusText(http.StatusBadRequest) ,http.StatusBadRequest)
-				return
-			}
-			replyWithStudent(w, &db, i)
-		}
-	}else{
-		// handle error
-		status := 400
-		http.Error(w, http.StatusText(status), status)
+	if len(parts) != 3{
 		return
 	}
+
+	if parts[2] == ""{
+		replyWithAllStudents(w, &db)
+		}else {
+			replyWithStudent(w, &db, parts[2])
+		}
 }
 
 func main() {
