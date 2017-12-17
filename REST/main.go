@@ -8,6 +8,8 @@ import (
 )
 
 
+var db StudentsDB
+
 func handlerHello(w http.ResponseWriter, r *http.Request)  {
 	parts := strings.Split(r.URL.Path, "/")
 	if (len(parts) != 4){
@@ -38,15 +40,10 @@ func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string)  {
 }
 
 func handlerStudent(w http.ResponseWriter, r *http.Request)  {
-	//
-	db := StudentsDB{}
-	db.Init()
-	db.Add(Student{"tom", 21, "id0"})
 	if r.Method == "POST"{
 		http.Error(w, "not implemented yet", http.StatusNotImplemented)
 		return
 	}
-	//
 	http.Header.Add(w.Header(),"content-type", "application/json")
 	parts := strings.Split(r.URL.Path, "/")
 
@@ -61,7 +58,12 @@ func handlerStudent(w http.ResponseWriter, r *http.Request)  {
 		}
 }
 
+
+
 func main() {
+	db = StudentsDB{}
+	db.Init()
+	db.Add(Student{"tom", 21, "id0"})
 	http.HandleFunc("/hello/", handlerHello)
 	http.HandleFunc("/student/", handlerStudent)
 	http.ListenAndServe(":8000", nil)
