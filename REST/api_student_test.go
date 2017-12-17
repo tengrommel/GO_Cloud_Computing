@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"encoding/json"
+	"strings"
 )
 
 func Test_handlerStudent_notImplemented(t *testing.T)  {
@@ -153,5 +154,31 @@ func Test_handlerStudent_getStudents_Tom(t *testing.T)  {
 
 	if a.Name != testStudent.Name || a.Age != testStudent.Age || a.Id != testStudent.Id {
 		t.Errorf("Students do not match! Got: %s, Expected: %s\n", a, testStudent)
+	}
+}
+
+func Test_handlerStudent_POST(t *testing.T)  {
+	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
+	defer ts.Close()
+	db = StudentsDB{}
+	db.Init()
+	// Testing empty body
+	resp, err := http.Post(ts.URL + "/student/", "application/json", nil)
+	if err != nil{
+		t.Errorf("Error creating the POST request, %s", err)
+	}
+
+	if resp.StatusCode != http.StatusBadRequest{
+		t.Errorf("Expected StatusCode %d, received %d", http.StatusBadRequest, resp.StatusCode)
+	}
+
+	tom := "{\"name\": \"Tom\", \"age\":  21, \"id\": \"id0\"}"
+	resp, err = http.Post(ts.URL+"/student/", "application/json", strings.NewReader(tom))
+	if err != nil{
+		t.Errorf("Error creating the POST request, %s", err)
+	}
+
+	if resp.StatusCode != http.StatusOK{
+		t.Errorf("Expected StatusCode %d, received %d", http.StatusOK, resp.StatusCode)
 	}
 }
