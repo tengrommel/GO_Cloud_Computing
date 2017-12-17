@@ -181,4 +181,22 @@ func Test_handlerStudent_POST(t *testing.T)  {
 	if resp.StatusCode != http.StatusOK{
 		t.Errorf("Expected StatusCode %d, received %d", http.StatusOK, resp.StatusCode)
 	}
+
+	wrongTom := "{\"fname\": \"Tom\", \"adfge\":  21, \"id\": \"id0\"}"
+	resp, err = http.Post(ts.URL+"/student/", "application/json", strings.NewReader(wrongTom))
+	if err != nil{
+		t.Errorf("Error creating the POST request, %s", err)
+	}
+
+	if resp.StatusCode != http.StatusBadRequest{
+		t.Errorf("Expected StatusCode %d, received %d", http.StatusBadRequest, resp.StatusCode)
+	}
+	resp, err = http.Post(ts.URL+"/student/", "application/json", strings.NewReader(tom))
+	if err != nil{
+		t.Errorf("Error creating the POST request, %s", err)
+	}
+
+	if resp.StatusCode != http.StatusBadRequest{
+		t.Errorf("Expected StatusCode %d, received %d", http.StatusBadRequest, resp.StatusCode)
+	}
 }
