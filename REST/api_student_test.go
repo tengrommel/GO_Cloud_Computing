@@ -85,11 +85,27 @@ func Test_handlerStudent_getAllStudents_empty(t *testing.T)  {
 // GET /student/
 // empty array back
 func Test_handlerStudent_getAllStudents_Tom(t *testing.T)  {
+	// add new student
+	db = StudentsDB{}
+	db.Init()
+	db.Add(Student{"Tom", 21, "id0"})
 	ts := httptest.NewServer(http.HandlerFunc(handlerStudent))
 	defer ts.Close()
 
-	// add new student
-
-
-
+	resp, err := http.Get(ts.URL + "/student/")
+	if err != nil{
+		t.Errorf("Error making the GET request, %s", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("Expected StatusCode %d, received %d", http.StatusOK, resp.StatusCode)
+		return
+	}
+	var a []Student
+	err = json.NewDecoder(resp.Body).Decode(&a)
+	if err != nil{
+		t.Errorf("Error parsing the expected JSON body. Got error: %s", err)
+	}
+	if len(a) != 1 {
+		t.Errorf("Excpected array with one element, got %s", a)
+	}
 }
