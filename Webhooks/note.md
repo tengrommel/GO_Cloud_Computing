@@ -10,3 +10,20 @@ Methods: POST,GET;Encodings(JSON, form encoding)
 URL to 'hook'(recipient side)<br>
 Payload format specification
 
+## API vs. Webhooks
+
+- API
+    > Interation Pattern: Polling<br>
+    Server provides functionality<br>
+    Client polls repeatedly
+
+    > Problems:<br>
+        Rate limits<br>
+        Connection limits<br>
+        Timeouts
+
+- Webhooks    
+    > Interaction Pattern: Publish-subscribe<br>
+    Client lodges callback(destination, event, ...)<br>
+    Server only contacts client upon event condition
+    
