@@ -10,7 +10,7 @@ package main
 type Student struct {
 	Name string `json:"name"`
 	Age int `json:"age"`
-	Id string `json:"id"`
+	StudentID string `json:"studentid"`
 }
 
 type StudentsDB struct {
@@ -22,7 +22,7 @@ func (db *StudentsDB)Init()  {
 }
 
 func (db *StudentsDB)Add(s Student)  {
-	db.students[s.Id] = s
+	db.students[s.StudentID] = s
 }
 
 func (db *StudentsDB)Count() int {

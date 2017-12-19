@@ -110,7 +110,7 @@ func Test_handlerStudent_getAllStudents_Tom(t *testing.T)  {
 	if len(a) != 1 {
 		t.Errorf("Excpected array with one element, got %s", a)
 	}
-	if a[0].Name != testStudent.Name || a[0].Age != testStudent.Age || a[0].Id != testStudent.Id {
+	if a[0].Name != testStudent.Name || a[0].Age != testStudent.Age || a[0].StudentID != testStudent.StudentID {
 		t.Errorf("Students do not match! Got: %s, Expected: %s\n", a[0], testStudent)
 	}
 }
@@ -152,7 +152,7 @@ func Test_handlerStudent_getStudents_Tom(t *testing.T)  {
 		t.Errorf("Error parsing the expected JSON body. Got error: %s", err)
 	}
 
-	if a.Name != testStudent.Name || a.Age != testStudent.Age || a.Id != testStudent.Id {
+	if a.Name != testStudent.Name || a.Age != testStudent.Age || a.StudentID != testStudent.StudentID {
 		t.Errorf("Students do not match! Got: %s, Expected: %s\n", a, testStudent)
 	}
 }

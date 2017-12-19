@@ -42,7 +42,7 @@ func handlerStudent(w http.ResponseWriter, r *http.Request)  {
 			return
 		}
 		// check if the student is new
-		_, ok :=db.Get(s.Id)
+		_, ok :=db.Get(s.StudentID)
 		if ok {
 			// TODO find a better Error Code (HTTP Status)
 			http.Error(w, "Student already exists. Use PUT to modify.", http.StatusBadRequest)

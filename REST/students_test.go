@@ -9,7 +9,7 @@ func Test_addStudent(t *testing.T) {
 	if db.Count() != 1 {
 		t.Error("Wrong student count")
 	}
-	s, _ := db.Get(sData.Id)
+	s, _ := db.Get(sData.StudentID)
 	if s.Name != "Tom" {
 		t.Error("Student Tom was not added.")
 	}
@@ -38,7 +38,7 @@ func Test_multipleStudents(t *testing.T)  {
 		if s.Age!=sTest.Age{
 			t.Error("Wrong Age")
 		}
-		if s.Id!=sTest.Id {
+		if s.StudentID!=sTest.StudentID {
 			t.Error("Wrong Id")
 		}
 	}
