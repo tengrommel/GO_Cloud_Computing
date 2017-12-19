@@ -22,7 +22,18 @@ func (db *StudentsMongoDB)Init()  {
 		panic(err)
 	}
 	defer session.Close()
-	// TODO put extra constraints on the student collection
+
+	index :=mgo.Index{
+		Key: []string{"studentid"},
+		Unique:true,
+		DropDups:true,
+		Background:true,
+		Sparse:true,
+	}
+	err = session.DB(db.DatabaseName).C(db.StudentsCollectionName).EnsureIndex(index)
+	if err != nil{
+		panic(err)
+	}
 }
 
 /*

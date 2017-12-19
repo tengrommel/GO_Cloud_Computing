@@ -72,3 +72,23 @@ func TestStudentsMongoDB_Get(t *testing.T) {
 		t.Error("student do not match!")
 	}
 }
+
+func TestStudentsMongoDB_Duplicates(t *testing.T) {
+	db := setupDB(t)
+	defer tearDownDB(t, db)
+
+	db.Init()
+	if db.Count() != 0{
+		t.Error("database not properly initialized. student count() should be 0.")
+	}
+	student := Student{"Tom", 21, "id1"}
+	db.Add(student)
+
+	if db.Count() != 1{
+		t.Error("adding new student failed.")
+	}
+	db.Add(student)
+	if db.Count()!=1{
+		t.Error("adding new student failed.")
+	}
+}
