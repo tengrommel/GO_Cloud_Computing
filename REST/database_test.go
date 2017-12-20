@@ -95,9 +95,9 @@ func TestStudentsMongoDB_Duplicates(t *testing.T) {
 	if db.Count() != 1{
 		t.Error("adding new student failed.")
 	}
-	db.Add(student)
-	if err !=nil{
-		t.Error(err)
+	err = db.Add(student)
+	if err == nil{
+		t.Error("adding duplicate entry should generate an error, but it doesn't")
 	}
 	if db.Count()!=1{
 		t.Error("adding new student failed.")
