@@ -39,7 +39,7 @@ func (db *StudentsMongoDB)Init()  {
 /*
 Add adds new students to the storage
  */
-func (db *StudentsMongoDB)Add(s Student)  {
+func (db *StudentsMongoDB)Add(s Student) error {
 	session, err := mgo.Dial(db.DatabaseURL)
 	if err!=nil{
 		panic(err)
@@ -49,7 +49,9 @@ func (db *StudentsMongoDB)Add(s Student)  {
 	err = session.DB(db.DatabaseName).C(db.StudentsCollectionName).Insert(s)
 	if err!= nil{
 		fmt.Printf("error in Insert(): %v", err.Error())
+		return err
 	}
+	return nil
 }
 
 /*
@@ -87,4 +89,23 @@ func (db *StudentsMongoDB)Get(keyId string) (Student, bool){
 		allWasGood = false
 	}
 	return student, allWasGood
+}
+
+/*
+Get returns a students with a given ID or empty student struct.
+ */
+func (db *StudentsMongoDB)GetAll() []Student{
+	session, err := mgo.Dial(db.DatabaseURL)
+	if err!=nil{
+		panic(err)
+	}
+	defer session.Close()
+
+	var all []Student
+
+	err = session.DB(db.DatabaseName).C(db.StudentsCollectionName).Find(bson.M{}).All(&all)
+	if err != nil{
+		return []Student{}
+	}
+	return all
 }

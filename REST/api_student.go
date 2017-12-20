@@ -7,19 +7,19 @@ import (
 	"net/http"
 )
 
-func replyWithAllStudents(w http.ResponseWriter, db *StudentsDB) {
-	if db.students == nil {
+func replyWithAllStudents(w http.ResponseWriter, db StudentsStorage) {
+	if db.Count() == 0 {
 		json.NewEncoder(w).Encode([]Student{})
 	} else {
-		a := make([]Student, 0, len(db.students))
-		for _, s := range db.students{
+		a := make([]Student, 0, db.Count())
+		for _, s := range db.GetAll(){
 			a = append(a, s)
 		}
 		json.NewEncoder(w).Encode(a)
 	}
 }
 
-func replyWithStudent(w http.ResponseWriter, db *StudentsDB, id string)  {
+func replyWithStudent(w http.ResponseWriter, db StudentsStorage, id string)  {
 	s, ok := db.Get(id)
 	if !ok {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
@@ -60,9 +60,9 @@ func handlerStudent(w http.ResponseWriter, r *http.Request)  {
 			return
 		}
 		if parts[2] == ""{
-			replyWithAllStudents(w, &db)
+			replyWithAllStudents(w, db)
 		}else {
-			replyWithStudent(w, &db, parts[2])
+			replyWithStudent(w, db, parts[2])
 		}
 	default:
 		http.Error(w, "not implemented yet", http.StatusNotImplemented)

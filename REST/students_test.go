@@ -2,7 +2,7 @@ package main
 import "testing"
 
 func Test_addStudent(t *testing.T) {
-	db := StudentsDB{}
+	db := &StudentsDB{}
 	sData := Student{"Tom", 21, "id1"}
 	db.Init()
 	db.Add(sData)

@@ -59,8 +59,10 @@ func TestStudentsMongoDB_Get(t *testing.T) {
 		t.Error("database not properly initialized. student count() should be 0.")
 	}
 	student := Student{"Tom", 21, "id1"}
-	db.Add(student)
-
+	err := db.Add(student)
+	if err !=nil{
+		t.Error(err)
+	}
 	if db.Count() != 1{
 		t.Error("adding student failed.")
 	}
@@ -70,6 +72,10 @@ func TestStudentsMongoDB_Get(t *testing.T) {
 	}
 	if newStudnet.Name != student.Name || newStudnet.Age != student.Age || newStudnet.StudentID != newStudnet.StudentID{
 		t.Error("student do not match!")
+	}
+	all := db.GetAll()
+	if len(all) != 1 || all[0].StudentID!=student.StudentID{
+		t.Error("GetAll() doesn't return proper slice of all the itmes")
 	}
 }
 
@@ -82,12 +88,17 @@ func TestStudentsMongoDB_Duplicates(t *testing.T) {
 		t.Error("database not properly initialized. student count() should be 0.")
 	}
 	student := Student{"Tom", 21, "id1"}
-	db.Add(student)
-
+	err := db.Add(student)
+	if err !=nil{
+		t.Error(err)
+	}
 	if db.Count() != 1{
 		t.Error("adding new student failed.")
 	}
 	db.Add(student)
+	if err !=nil{
+		t.Error(err)
+	}
 	if db.Count()!=1{
 		t.Error("adding new student failed.")
 	}

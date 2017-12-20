@@ -6,9 +6,6 @@ import (
 	"strings"
 )
 
-
-var db StudentsDB
-
 func handlerHello(w http.ResponseWriter, r *http.Request)  {
 	parts := strings.Split(r.URL.Path, "/")
 	if len(parts) != 4{
@@ -21,12 +18,17 @@ func handlerHello(w http.ResponseWriter, r *http.Request)  {
 	fmt.Fprintf(w, "Hello %s %s!\n", name, parts[3])
 }
 
-
-
+//
+var db StudentsStorage
+//
 
 func main() {
-	db = StudentsDB{}
+	// in memory
+	//db = &StudentsDB{}
+	// mongo persisiance
+	db = &StudentsMongoDB{}
 	db.Init()
+
 	http.HandleFunc("/hello/", handlerHello)
 	http.HandleFunc("/student/", handlerStudent)
 	http.ListenAndServe(":8000", nil)
