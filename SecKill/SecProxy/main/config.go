@@ -25,6 +25,8 @@ type EtchConf struct {
 type SecSkillConf struct {
 	redisConf RedisConf
 	etcdConf EtchConf
+	logPath string
+	logLevel string
 }
 
 func initConfig() (err error) {
@@ -69,5 +71,9 @@ func initConfig() (err error) {
 	}
 
 	secKillConf.etcdConf.timeout = etcdTimeout
+
+	secKillConf.logPath = beego.AppConfig.String("logs_path")
+	secKillConf.logLevel = beego.AppConfig.String("log_level")
+
 	return
 }

@@ -5,6 +5,8 @@ import (
 	"github.com/garyburd/redigo/redis"
 	"time"
 	etcd_client "github.com/coreos/etcd/clientv3"
+	"encoding/json"
+	"fmt"
 )
 
 var (
@@ -47,8 +49,39 @@ func initEtcd() (err error) {
 	return
 }
 
+func converLogLevel(level string) int{
+	switch (level) {
+	case "debug":
+		return logs.LevelDebug
+	case "warn":
+		return logs.LevelWarn
+	case "info":
+		return logs.LevelInfo
+	case "trace":
+		return logs.LevelTrace
+	}
+	return logs.LevelDebug
+}
+
+func initLogs() (err error) {
+	config := make(map[string]interface{})
+	config["filename"] = secKillConf.logPath
+	config["level"] = converLogLevel(secKillConf.logLevel)
+
+	configStr, err := json.Marshal(config)
+	if err != nil{
+		fmt.Println("marshal failed, err:", err)
+	}
+	logs.SetLogger(logs.AdapterFile, string(configStr))
+	return
+}
+
 
 func initSec() (err error) {
+	err = initLogs()
+	if err != nil{
+		logs.Error("init logger failed, err: %v", err)
+	}
 
 	err = initRedis()
 	if err != nil{
