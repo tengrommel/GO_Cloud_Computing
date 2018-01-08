@@ -4,10 +4,12 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/garyburd/redigo/redis"
 	"time"
+	etcd_client "github.com/coreos/etcd/clientv3"
 )
 
 var (
 	redisPool *redis.Pool
+	etcdClient *etcd_client.Client
 )
 
 func initRedis() (err error) {
@@ -32,7 +34,16 @@ func initRedis() (err error) {
 	return
 }
 
-func initEtch() (err error) {
+func initEtcd() (err error) {
+	cli, err := etcd_client.New(etcd_client.Config{
+		Endpoints: []string{secKillConf.etcdConf.etcdAddr},
+		DialTimeout: time.Duration(secKillConf.etcdConf.timeout) * time.Second,
+	})
+	if err != nil{
+		logs.Error("connect etcd failed, err:", err)
+		return
+	}
+	etcdClient = cli
 	return
 }
 
@@ -45,7 +56,7 @@ func initSec() (err error) {
 		return
 	}
 
-	err = initEtch()
+	err = initEtcd()
 	if err != nil{
 		logs.Error("init etcd failed, err: %v", err)
 		return
