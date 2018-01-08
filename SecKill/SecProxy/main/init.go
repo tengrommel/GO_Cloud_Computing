@@ -6,8 +6,12 @@ import (
 	"time"
 )
 
+var (
+	redisPool *redis.Pool
+)
+
 func initRedis() (err error) {
-	_ := &redis.Pool{
+	redisPool = &redis.Pool{
 		MaxIdle:secKillConf.redisConf.redisMaxIdle,
 		MaxActive:secKillConf.redisConf.redisMaxActive,
 		IdleTimeout: time.Duration(secKillConf.redisConf.redisIdleTimeout)*time.Second,
@@ -15,6 +19,16 @@ func initRedis() (err error) {
 			return redis.Dial("tcp", secKillConf.redisConf.redisAddr)
 		},
 	}
+
+	conn := redisPool.Get()
+	defer conn.Close()
+
+	_, err = conn.Do("ping")
+	if err != nil{
+		 logs.Error("ping redis failed, err:%v\n", err)
+		 return
+	}
+
 	return
 }
 
