@@ -1,0 +1,4 @@
+# 外观模式
+
+API为facade模块的外观接口，大部分代码使用此接口简化对facade类的访问。<br>
+facade模块同时暴露了a和b两个Module的NewXXX和interface，其他代码如果需要使用细节功能可以直接调用。
