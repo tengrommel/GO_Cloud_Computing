@@ -7,6 +7,7 @@ import (
 	etcd_client "github.com/coreos/etcd/clientv3"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/net/context"
 )
 
 var (
@@ -76,6 +77,20 @@ func initLogs() (err error) {
 	return
 }
 
+func loadSecConf() (err error) {
+	key := fmt.Sprintf("%s/product", secKillConf.etcdConf.etcdSecKey)
+	resp, err := etcdClient.Get(context.Background(), key)
+	if err != nil{
+		logs.Error("get [%s] from etcd failed, err :%v",key, err)
+		return
+	}
+
+	for k, v := range resp.Kvs{
+		logs.Debug("key[%s] value[%s]", k, v)
+	}
+	return
+}
+
 
 func initSec() (err error) {
 	err = initLogs()
@@ -92,6 +107,11 @@ func initSec() (err error) {
 	err = initEtcd()
 	if err != nil{
 		logs.Error("init etcd failed, err: %v", err)
+		return
+	}
+
+	err = loadSecConf()
+	if err != nil{
 		return
 	}
 

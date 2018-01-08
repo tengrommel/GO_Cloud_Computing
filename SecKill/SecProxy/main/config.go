@@ -20,6 +20,7 @@ type RedisConf struct {
 type EtchConf struct {
 	etcdAddr string
 	timeout int
+	etcdSecKey string
 }
 
 type SecSkillConf struct {
@@ -27,6 +28,15 @@ type SecSkillConf struct {
 	etcdConf EtchConf
 	logPath string
 	logLevel string
+}
+
+type SecInfoConf struct {
+	ProductId int
+	StartTime int
+	EndTime 	int
+	Status 		int
+	Total     int
+	Left			int
 }
 
 func initConfig() (err error) {
@@ -71,6 +81,11 @@ func initConfig() (err error) {
 	}
 
 	secKillConf.etcdConf.timeout = etcdTimeout
+	secKillConf.etcdConf.etcdSecKey = beego.AppConfig.String("etcd_sec_key")
+	if len(secKillConf.etcdConf.etcdSecKey) == 0{
+		err = fmt.Errorf("init config failed, read etcd_sec_key error:%v", err)
+		return
+	}
 
 	secKillConf.logPath = beego.AppConfig.String("logs_path")
 	secKillConf.logLevel = beego.AppConfig.String("log_level")
