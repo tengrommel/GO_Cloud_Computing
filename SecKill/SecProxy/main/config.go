@@ -28,9 +28,10 @@ type SecSkillConf struct {
 	etcdConf EtchConf
 	logPath string
 	logLevel string
+	secProductInfo []SecProductInfoConf
 }
 
-type SecInfoConf struct {
+type SecProductInfoConf struct {
 	ProductId int
 	StartTime int
 	EndTime 	int

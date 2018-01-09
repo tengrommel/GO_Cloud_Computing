@@ -85,9 +85,17 @@ func loadSecConf() (err error) {
 		return
 	}
 
+	var secProductInfo []SecProductInfoConf
 	for k, v := range resp.Kvs{
 		logs.Debug("key[%s] value[%s]", k, v)
+		err = json.Unmarshal(v.Value, &secProductInfo)
+		if err != nil{
+			logs.Error("Unmarshal sec product info failed, err%v", err)
+			return
+		}
+		logs.Debug("sec info conf is [%v]", secProductInfo)
 	}
+	secKillConf.secProductInfo = secProductInfo
 	return
 }
 
@@ -112,9 +120,19 @@ func initSec() (err error) {
 
 	err = loadSecConf()
 	if err != nil{
+		logs.Error("load sec conf failed, err: %v", err)
+		return
+	}
+
+	err = initSecProductWatcher()
+	if err != nil{
 		return
 	}
 
 	logs.Info("init sec succ")
 	return
+}
+
+func initSecProductWatcher () error {
+	return nil
 }
