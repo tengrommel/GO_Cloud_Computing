@@ -52,3 +52,7 @@ A primary use of this type is to perform DNS lookups on IP host names.
     func LookupCNAME(name string)(cname string, err os.Error)
 > One of these addresses will be labelled as the "canonical" host name.
 
+## Ports
+    func LookupPort(network, service string) (port int, err os.Error)
+>On a Unix system, the commonly used ports are listed in the file /etc/services. 
+<br>Go has a function to interrogate this file
