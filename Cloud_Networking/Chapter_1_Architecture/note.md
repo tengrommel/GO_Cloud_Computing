@@ -133,3 +133,21 @@ The points of failure include:
 - The server system may have h/w problems
 - The server s/w may crash
 - The server's database may become corrupted
+
+## Acceptance Factors
+- Reliability
+- Performance
+- Responsiveness
+- Scalability
+- Capacity
+- Security
+
+## Transparency
+- access transparency
+- location transparency
+- migration transparency
+- replication transparency
+- concurrency transparency
+- scalability transparency
+- performance transparency
+- failure transparency
