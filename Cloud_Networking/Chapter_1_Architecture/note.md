@@ -55,3 +55,64 @@ There are many ways of looking at such systems, and many of these are dealt with
 
  *This can also be done in distributed message passing systems, whereby a message received across the network is partly decoded and dispatched to an appropriate handler.*
 
+## Remote procedure call
+>In any system,there is a transfer of information and flow control from one part of the system to another. <br>
+In procedural languages this may consist of the procedure call, where information is placed on a call stack and then control flow is transferred to another part of the program.
+
+## Distributed Computing Models
+>At the highest level,we could consider the equivalence of the non-equivalence of components of a distributed system.
+
+*The most common occurrence is an asymmetric one: a client sends requests to a server, and the server responds. This is a client-server system.*
+- If both components are equivalent, both able to initiate and to respond to messages, then we have a peer-to-peer system.
+- A third model is the so-called filter. Here one component passes information to another which modifies it before passing it to a third. 
+
+## Server Distribution
+> the master receives requests and instead of handling them one at a time itself, passes them off to other servers to handle. <br>
+This is a common model when concurrent clients are possible.
+
+## Component Distribution
+
+A simple but effective way of decomposing many applications is to consider them as made up of three parts:
+
+- Presentation component
+> The presentation component is responsible for interactions with the user, both displaying data and gathering input.<br>
+ It may be a modern GUI interface with buttons, lists, menus, etc., or an older command-line style interface, asking questions and getting answers.<br> 
+ The details are not important at this level.
+- Application logic
+> The application logic is responsible for interpreting the users' response,for applying business rules,for preparing queries and managing responses from the their component.
+- Data access
+> The data access component is responsible for storing and retrieving data. This will often be through a database, but not necessarily.
+
+## Gartner Classification
+
+- distributed data
+- remote data
+- distribute transaction
+- remote presentation
+- distribute presentation
+
+## Middleware
+
+Components of middleware include
+- The network services include things like TCP/IP
+- The middleware layer is application-independent s/w using the network services.
+- Examples of middleware are: DCE,RPC,Corba
+- Middleware many only perform one function (such as RPC) or many (such as DCE)
+
+Examples of middleware include
+- Primitive services such as terminal emulators, file transfer, email
+- Basic services such as RPC
+- Integrated services such as DCE,Network O/S
+- Distributed object services such as CORBA,OLE/ActiveX
+- Mobile object services such as RMI,Jini
+- World Wide Web
+
+The functions of middleware include
+- Initiation of processes at different computers
+- Session management
+- Directory services to allow clients to locate servers
+- Remote data access
+- Concurrency control to allow servers to handle multiple clients
+- Security and integrity
+- Monitoring
+- Termination of processes both local and remote
