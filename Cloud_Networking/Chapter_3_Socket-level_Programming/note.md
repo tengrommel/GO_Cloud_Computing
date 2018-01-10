@@ -42,3 +42,13 @@ Some parts of the OSI standard are obscure, some parts cannot easily be implemen
 A primary use of this type is to perform DNS lookups on IP host names.
     
     func ResolveIPAddr(net, addr string) (*IPAddr, os.Error)
+    
+## Host lookup
+    func LookupHost(name string) (addr []string, err os.Error)
+> The function ResolveIPAddr will perform a DNS lookup on a hostname, and return a single IP address.<br>
+ However, hosts may have multiple IP addresses, usually from multiple network interface cards.<br> 
+ They may also have multiple host names, acting as aliases. 
+ 
+    func LookupCNAME(name string)(cname string, err os.Error)
+> One of these addresses will be labelled as the "canonical" host name.
+
