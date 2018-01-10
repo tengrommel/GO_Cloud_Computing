@@ -47,3 +47,11 @@ There are many ways of looking at such systems, and many of these are dealt with
 # Communications Models
 
 ## Message passing
+>Message passing is a primitive mechanism for distributed systems.<br>
+ Set up a connection and pump some data down it. <br>
+ At the other end, figure out what the message was and respond to it, possibly sending messages back.
+
+ *Higher level event driven systems assume that this decoding has been done by the underlying system and the event is then dispatched to an appropriate object such as a ButtonPress handler.*
+
+ *This can also be done in distributed message passing systems, whereby a message received across the network is partly decoded and dispatched to an appropriate handler.*
+
