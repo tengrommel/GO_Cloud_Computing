@@ -116,3 +116,20 @@ The functions of middleware include
 - Security and integrity
 - Monitoring
 - Termination of processes both local and remote
+
+## Points of Failure
+> Distributed applications run in a complex environment.<br>
+This makes them much more prone to failure than standalone applications on a single computer. <br>
+The points of failure include:
+- The client side of the application could crash
+- The client system may have h/w problems
+- The client's network card could fail
+- Network contention could cause timeouts
+- There may be network address conflicts
+- Network elements such as routers could fail
+- Transmission errors may lose messages
+- The client and server versions may be incompatible
+- The server's network card could fail
+- The server system may have h/w problems
+- The server s/w may crash
+- The server's database may become corrupted
