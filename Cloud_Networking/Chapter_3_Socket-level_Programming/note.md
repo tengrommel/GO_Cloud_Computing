@@ -32,3 +32,13 @@ Some parts of the OSI standard are obscure, some parts cannot easily be implemen
 
     func(ip IP) DefaultMask() IPMask
 > Alternatively,there is a method of IP which returns the default mask
+
+## The type IPAddr
+    type IPAddr {
+        IP IP
+    }
+> Many of the other functions and methods in the net package return a pointer to an IPAddr.This is simply a structure containing an IP.
+
+A primary use of this type is to perform DNS lookups on IP host names.
+    
+    func ResolveIPAddr(net, addr string) (*IPAddr, os.Error)
