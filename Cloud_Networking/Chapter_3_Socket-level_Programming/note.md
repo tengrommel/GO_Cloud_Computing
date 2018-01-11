@@ -129,3 +129,18 @@ before any reads or writes on the socket.
 > A client may wish to stay connected to a server even if it has nothing to send. It can use
 
     func (c *TCPConn) SetKeepAlive(keepalive bool) os.Error
+    
+## UDP Datagrams
+> In a connectionless protocol each message contains information about its origin destination.<br>
+There is no "session" established using a long-lived socket.<br>
+UDP clients and servers make use of datagrams, which are individual messages containing source and destination information.<br>
+There is no state maintained by these messages, unless the client or server does so. <br>
+The messages are not guaranteed to arrive, or may arrive out of order.
+
+The major difference between TCP and UDP handling for Go is how to deal with packets arriving from possibly multiple clients
+
+    func ResolveUDPAddr(net, addr, string) (*UDPAddr, os.Error)
+    func DialUDP(net string, laddr, raddr *UDPAddr) (c *UDPConn, err os.Error)
+    func ListenUDP(net string, laddr *UDPAddr) (c *UDPConn, err os.Error)
+    func (c *UDPConn) ReadFromUDP(b []byte) (n int, addr *UDPAddr, err os.Error)
+    func (c *UDPConn) WriteToUDP(b []byte, addr *UDPAddr) (n int, err os.Error)
