@@ -69,3 +69,29 @@ A primary use of this type is to perform DNS lookups on IP host names.
     func ResolveTCPAddr(net, addr string) (*TCPAddr, os.Error)
     
 **where net is one of "tcp", "tcp4" or "tcp6" and the addr is a string composed of a host name or IP address, followed by the port number after a ":", such as "www.google.com:80" or "127.0.0.1:22". If the address is an IPv6 address, which already has colons in it, then the host part must be enclosed in square brackets, such as "[::1]:23". Another special case is often used for servers, where the host address is zero, so that the TCP address is really just the port name, as in ":80" for an HTTP server.**    
+
+## TCP Sockets
+- client
+> If you are a client you need an API that will allow you to connect to a service and then to send messages to that service and read replies back from the service.
+- server 
+> If you are a server,you need to be able to bind to a port and listen at it. When a message comes in you need to be able to read it and write back to the client.
+
+The net.TCPConn is the Go type which allows full duplex communication between the client and the server. Two major methods of interest are
+
+    func (c *TCPConn) Write(b []byte) (n int, err os.Error)
+    func (c *TCPConn) Read(b []byte) (n int, err os.Error)                                                       
+**A TCPConn is used by both a client and a server to read and write messages.**
+
+### TCP client
+1. Once a client has established a TCP address for a service, it "dials" the service.
+2. If successful, the dial returns TCPConn for communication.
+3. The client and the server exchange message on this.
+4. Typically a client writes a request to the server using the TCPConn, and reads a response from the TCPConn.
+5. This continues until either (or both) sides close the connection.
+6. A TCP connection is established by the client using the function
+    
+    
+    func DialTCP(net string, laddr, raddr *TCPAddr) (c *TCPConn, err os.Error)
+>laddr is the local address which is usually set to nil <br>
+ raddr is the remote address of the service <br>
+ the net string is one of "tcp4", "tcp6" or "tcp" depending on whether you want a TCPv4 connection, a TCPv6 connection or don't care.
