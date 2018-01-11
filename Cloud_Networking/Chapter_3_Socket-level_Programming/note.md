@@ -144,3 +144,18 @@ The major difference between TCP and UDP handling for Go is how to deal with pac
     func ListenUDP(net string, laddr *UDPAddr) (c *UDPConn, err os.Error)
     func (c *UDPConn) ReadFromUDP(b []byte) (n int, addr *UDPAddr, err os.Error)
     func (c *UDPConn) WriteToUDP(b []byte, addr *UDPAddr) (n int, err os.Error)
+    
+## Server listening on multiple sockets
+> A server may be attempting to listen to multiple clients not just on one port, but on many.<br>
+**In this case it has to use some sort of polling mechanism between the ports.**
+
+1. In C, the select() call lets the kernel do this work. The call takes a number of file descriptors.
+2. The process is suspended. When I/O is ready on one of these, a wakeup is done, and the process can continue. This is cheaper than busy polling. 
+3. In Go, accomplish the same by using a different goroutine for each port. A thread will become runnable when the lower-level select() discovers that I/O is ready for this thread.
+
+## The types Conn, PacketConn and Listener
+>The type Conn is an interface and both TCPConn and UDPConn implement this interface. To a large extent you can deal with this interface rather than the two types.
+**Instead of separate dial functions for TCP and UDP, you can use a single function**
+    
+    func Dial(net, laddr, raddr string) (c Conn, err os.Error)
+    
