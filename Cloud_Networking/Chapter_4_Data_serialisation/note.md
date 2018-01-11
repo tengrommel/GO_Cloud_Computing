@@ -49,3 +49,6 @@ If the struct field has a tag, that tag will be used as the name instead.
 - Interface values encode as the value contained in the interface. A nil interface value encodes as the null JSON object.
 - Channel, complex, and function values cannot be encoded in JSON. Attempting to encode such a value cause Marshal to return an InvalidTypeError.
 - JSON cannot represent cyclic data structures and Marshal does not handle them. Passing cyclic structures to Marshal will result in an infinite recursion.
+
+## The gob package
+>Gob is a serialisation technique specific to Go.
