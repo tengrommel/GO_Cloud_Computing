@@ -31,3 +31,21 @@ Programming languages use structured data such as
 
 >Abstract Syntax Notation One (ASN.1) was originally designed in 1984 for the telecommunications industry.
 
+## JSON
+> JSON stands for JavaScript Object Notation.<br>
+ It was designed to be a lightweight means of passing data between JavaScript systems.<br>
+ It uses a text-based format and is sufficiently general that it has become used as a general purpose serialisation method for many programing languages.
+
+From the Go JSON package specification, marshalling uses the following type-dependent default encodings:
+
+- Boolean values encode as JSON booleans.
+- Floating point and integer values encode as JSON numbers.
+- String values encode as JSON strings, with each invalid UTF-8 sequence replaced by the encoding of the Unicode replacement character U+FFFD.
+- Array and slice values encode as JSON arrays, except that []byte encodes as a base64-encoded string.
+- Struct values encode as JSON objects. Each struct field becomes a member of the object. By default the object's key name is the struct field name converted to lower case. <br>
+If the struct field has a tag, that tag will be used as the name instead.
+- Map values encode as JSON objects. The map's key type must be string; the object keys are used directly as map keys.
+- Pointer values encode as the value pointed to. (Note: this allows trees, but not graphs!). A nil pointer encodes as the null JSON object.
+- Interface values encode as the value contained in the interface. A nil interface value encodes as the null JSON object.
+- Channel, complex, and function values cannot be encoded in JSON. Attempting to encode such a value cause Marshal to return an InvalidTypeError.
+- JSON cannot represent cyclic data structures and Marshal does not handle them. Passing cyclic structures to Marshal will result in an infinite recursion.
