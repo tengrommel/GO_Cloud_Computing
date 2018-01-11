@@ -114,3 +114,18 @@ If the port is set to zero, then the O/S will choose a port for you. Otherwise y
 Note that on a Unix system, you cannot listen on a port below 1024 unless you are the system supervisor, root, <br>
 and ports below 128 are standardized by the IETF. The example program chooses port 1200 for no particular reason.<br>
 The TCP address is given as ":1200" - all interfaces, port 1200.* 
+
+## Controlling TCP connections
+
+- Timeout
+> The server may wish to timeout a client if it does not respond quickly enough i.e. does not write a request to the server in time.<br>
+This should be a long period(server minutes), because the user may be taking their time.<br>
+Conversely, the client may want to timeout the server (after a much shorter time).
+    
+    func (c *TCPConn) SetTimeout(nsec int64) os.Error
+before any reads or writes on the socket.
+
+- Staying alive
+> A client may wish to stay connected to a server even if it has nothing to send. It can use
+
+    func (c *TCPConn) SetKeepAlive(keepalive bool) os.Error
