@@ -95,3 +95,22 @@ The net.TCPConn is the Go type which allows full duplex communication between th
 >laddr is the local address which is usually set to nil <br>
  raddr is the remote address of the service <br>
  the net string is one of "tcp4", "tcp6" or "tcp" depending on whether you want a TCPv4 connection, a TCPv6 connection or don't care.
+ 
+ ## A Daytime server
+ > About the simplest service that we can build is the daytime service.
+ 
+**A server register itself on a port, and listens on that port.
+ Then it blocks on an "accept" operation, waiting for clients to connect.**
+
+The relevant calls are:
+    
+    func ListenTCP(net string, laddr *TCPAddr) (l *TCPListener, err os.Error)
+    func (l *TCPListener) Accept() (c Conn, err os.Error)
+    
+*The argument net can be set to one of the strings "tcp", "tcp4" or "tcp6". <br>
+The IP address should be set to zero if you want to listen on all network interfaces, <br>
+or to the IP address of a single network interface if you only want to listen on that interface.<br>
+If the port is set to zero, then the O/S will choose a port for you. Otherwise you can choose your own.<br> 
+Note that on a Unix system, you cannot listen on a port below 1024 unless you are the system supervisor, root, <br>
+and ports below 128 are standardized by the IETF. The example program chooses port 1200 for no particular reason.<br>
+The TCP address is given as ":1200" - all interfaces, port 1200.* 
