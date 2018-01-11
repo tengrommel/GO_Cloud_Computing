@@ -38,8 +38,7 @@ func handleClient(conn net.Conn)  {
 		if err2 != nil{
 			return
 		}
-	}
-}
+	}}
 
 
 func checkError(e error) {
