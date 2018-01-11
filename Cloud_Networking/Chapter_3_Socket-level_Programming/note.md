@@ -159,3 +159,17 @@ The major difference between TCP and UDP handling for Go is how to deal with pac
     
     func Dial(net, laddr, raddr string) (c Conn, err os.Error)
     
+Writing a server can be similarly simplified using the function.
+    
+    func Listen(net, laddr string) (l Listener, err os.Error)
+    
+Which returns an object implementing the Listener interface.This interface has a method
+
+    func (l Listener) Accept() (c Conn, err os.Error)
+    
+If you want to write a UDP server, then there is an interface PacketConn and a method to return an implementation of this:
+
+    func ListenPacket(net, laddr string) (c PacketConn, err os.Error)
+
+The Go net package recommends using these interface types rather than the concrete ones. 
+But by using them, you lose specific methods such as SetKeepAlive or TCPConn and SetReadBuffer of UDPConn, unless you do a type cast. It is your choice.
