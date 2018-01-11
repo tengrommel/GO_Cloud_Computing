@@ -173,3 +173,6 @@ If you want to write a UDP server, then there is an interface PacketConn and a m
 
 The Go net package recommends using these interface types rather than the concrete ones. 
 But by using them, you lose specific methods such as SetKeepAlive or TCPConn and SetReadBuffer of UDPConn, unless you do a type cast. It is your choice.
+
+## Raw sockets and the type IPConn
+>This section covers advanced material which most programmers are unlikely to need. it deals with raw sockets, which allow the programmer to build their own IP protocols, or use protocols other than TCP or UDP
