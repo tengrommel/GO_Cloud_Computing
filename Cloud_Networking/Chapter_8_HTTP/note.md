@@ -30,3 +30,19 @@ However, there is only a small increase.
 > To send a request to a server and get a reply, the convenience object Client is the easiest way.
 
 *This object can manage multiple requests and will look after issues such as whether the server keeps the TCP connection alive and so on.*
+
+## Proxy handling
+
+### Simple proxy
+>HTTP 1.1 laid out how HTTP should work through a proxy. A "GET" request should be made to a proxy.<br>
+However, the URL requested should be the full URL of the destination.<br>
+In addition the HTTP header should contain a "Host" field, set to the proxy.<br>
+As long as the proxy is configured to pass such requests through, then that is all that needs to be done.
+
+Go considers this to be part of the HTTP transport layer.To manage this it has a class Transport.<br>
+This contains a field which can be set to a function that returns a URL for a proxy.<br>
+If we have a URL as a string for the proxy, the appropriate transport object is created and then given to a client object by
+
+    proxyURL, err := url.Parse(proxyString)
+    transport := &http.Transport{Proxy: http.ProxyURL(proxyURL)}
+    client := &http.Client{Transport: transport}
