@@ -24,3 +24,9 @@ However, there is only a small increase.
 
 
     request.Header.Add("Accept-Charset", "UTF-8;q=1, ISO-8859-1;q=0")
+    
+    
+## The client object
+> To send a request to a server and get a reply, the convenience object Client is the easiest way.
+
+*This object can manage multiple requests and will look after issues such as whether the server keeps the TCP connection alive and so on.*
