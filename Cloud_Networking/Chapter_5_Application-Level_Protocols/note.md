@@ -105,3 +105,19 @@ Pseudocode is
     }
     
 *If we just pretend everything is ASCII, like it was once upon a time, then character formats are quite straightforward to deal with. The principal complication at this level is the varying status of "newline" across different operating systems. Unix uses the single character "\n". Windows and others (more correctly) use the pair "\r\n". On the internet, the pair "\r\n" is most common - Unix systems just need to take care that they don't assume "\n".*
+
+## State
+
+Applications often make use of state information to simplify what is going on.
+- Keeping file pointers to current file location
+- Keeping current mouse position
+- Keeping current customer value
+
+*In a distributed system, such state information may be kept in the client, in the server, or in both.*
+
+The important point is to whether one process is keeping state information about itself or about the other process.<br>
+One process may keep as much state information about itself as it wants, without causing any problems.<br>
+**If it needs to keep information about the state of the other process, then problems arise: the process' actual knowledge of the state of the other may become incorrect.**
+
+## Application State Transition Diagram
+> A state transition diagram keeps track of the current state of an application and the changes that move it to new states.
