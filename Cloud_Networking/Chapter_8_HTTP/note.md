@@ -52,5 +52,34 @@ If we have a URL as a string for the proxy, the appropriate transport object is 
 A common scheme is "basic authentication" in which the user name and password are concatenated into a string "user:password" and then BASE64 encoded.<br> 
 This is then given to the proxy by the HTTP request header "Proxy-Authorisation" with the flag that it is the basic authentication
                                                                  
+## HTTPS connections by clients
+>For secure, encrypted connections, HTTP uses TLS which is described in the chapter on security.<br>
+The protocol of HTTP_TLS is called HTTPS and uses https:// urls instead of http:// urls.
 
-    
+*Servers are required to return valid X.509 certificates before a client will accept data from them.<br>
+If the certificate is valid, then Go handles everything under the hood and the clients given previously run okay with https URLs.*
+
+*Many sites have invalid certificates. <br>
+They may have expired, they may be self-signed instead of by a recognised Certificate Authority or they may just have errors (such as having an incorrect server name). <br>
+Browsers such as Firefox put a big warning notice with a "Get me out of here!" button, but you can carry on at your risk - which many people do.*
+
+*Go presently bails out when it encounters certificate errors. There is cautious support for carrying on but I haven't got it working yet. <br>
+So there is no current example for "carrying on in the face of adversity :-)". Maybe later.*
+
+## Servers   
+>The other side to building a client is a Web server handling HTTP requests. <br>
+The simplest - and earliest - servers just returned copies of files.<br>
+However, any URL can now trigger an arbitrary computation in current servers.
+   
+### File server
+   
+   We start with a basic file server. 
+   >Go supplies a multi-plexer, that is, an object that will read and interpret requests. <br>
+   It hands out requests to handlers which run in their own thread. 
+   <br>Thus much of the work of reading HTTP requests, decoding them and branching to suitable functions in their own thread is done for us.
+   
+   *For a file server, Go also gives a FileServer object which knows how to deliver files from the local file system.<br>
+    It takes a "root" directory which is the top of a file tree in the local system, and a pattern to match URLs against.<br> 
+    The simplest pattern is "/" which is the top of any URL. This will match all URLs.*
+   
+   An HTTP server delivering files from the local file system is almost embarrassingly trivial given these objects.
