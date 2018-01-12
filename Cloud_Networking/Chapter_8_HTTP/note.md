@@ -8,3 +8,19 @@
 
 ## URLs and resources
 >URLs specify the location of a resource.
+
+## Configuring HTTP requests
+> Go also supplies a lower-level interface for user agents to communicate with HTTP servers.<br>
+As you might expect, not only does it give you more control over the client requests, but require you to spend more effort in building the requests. <br>
+However, there is only a small increase.
+
+-  The simplest way to create a request with default values is by for example
+    
+    
+    request, err := http.NewRequest("GET", url.String(), nil)
+    
+
+-  To specify that you only wish to receive UTF-8, add an "Accept-Charset" field to a request by
+
+
+    request.Header.Add("Accept-Charset", "UTF-8;q=1, ISO-8859-1;q=0")
