@@ -46,3 +46,11 @@ If we have a URL as a string for the proxy, the appropriate transport object is 
     proxyURL, err := url.Parse(proxyString)
     transport := &http.Transport{Proxy: http.ProxyURL(proxyURL)}
     client := &http.Client{Transport: transport}
+    
+### Authenticating proxy
+> Some proxies will require authentication, by a user name and password in order to pass requests.<br>
+A common scheme is "basic authentication" in which the user name and password are concatenated into a string "user:password" and then BASE64 encoded.<br> 
+This is then given to the proxy by the HTTP request header "Proxy-Authorisation" with the flag that it is the basic authentication
+                                                                 
+
+    
