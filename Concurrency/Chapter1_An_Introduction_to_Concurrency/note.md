@@ -20,3 +20,49 @@ Indeed, some developers fall into the trap of sprinkling sleeps throughout their
     if data == 0{
         fmt.Printf("the value is %v.\n" data)
     }
+
+
+## Atomicity
+>When something is considered atomic, or to have the property of atomicity, this means that within the context that it is operating, it is indivisible, or uninterruptible.
+
+1. The first thing that’s very important is the word “context.” Something may be atomic in one context, but not another. 
+2. Operations that are atomic within the context of your process may not be atomic in the context of the operating system; 
+3. operations that are atomic within the context of the operating system may not be atomic within the context of your machine;
+ and operations that are atomic within the context of your machine may not be atomic within the context of your application. 
+ 
+ *In other words, the atomicity of an operation can change depending on the currently defined scope.*
+ This fact can work both for and against you!
+ 
+ ## Memory Access Synchronization
+ 
+    var data int
+    go func() {data++}()
+    if data == 0 {
+        fmt.Println("the value is 0.")
+    } else {
+        fmt.Printf("The value is %v.\n", data)
+    }
+    
+- Our goroutine, which is incrementing the data variables.
+- Our if statement, which checks whether the value of data is 0.
+- Out fmt.Printf statement, which retrieves the value of data for output.
+
+
+    var memoryAccess sync.Mutex
+    var value int
+    go func() {
+        memoryAccess.Lock()
+        value++
+        memoryAccess.Unlock()
+    }()
+    memoryAccess.Lock()
+    if value == 0{
+        fmt.Printf("the value is %v.\n", value)
+    } else {
+        fmt.Printf("the value is %v.\n", value)
+    }
+    memoryAccess.Unlock()
+
+## Deadlock
+> A deadlocked program is one in which all concurrent processes are waiting on one another.In this state, the program will never recover without outside intervention
+
