@@ -48,5 +48,12 @@ syscall.Signal是os.Signal接口的一个实现类型，同时也是一个int类
 signal.Notify函数会把当前进程接收到的指定信号放入参数c代表的通道类型值(以下简称signal接收通道)中，这样函数的调用方法就可以从这个signal接收通道中按顺序获取操作系统发来的信号并进行相应的处理了。
 <br>第二个参数是一个可变长的参数，这意味着我们在调用signal.Notify函数时，可以在第一个参数值之后再附加任意个os.Signal类型的参数值。
 
+> 除了能够自行处理它们之外，还可以在之后的任意时刻恢复对它们的系统默认操作。
+    
+    func Stop(c chan<- os.Signal)
+
+函数signal.Stop会取消掉在之前调用signal.Notify 函数时告知signal处理程序需要自行处理若干信号的行为。
+1. 只有把当初传递给signal.Notify函数的那个signal接收通道作为调用signal.Stop函数时的参数值，才能如愿以偿地取消掉之前的行为，否则调用signal.Stop函数不会起到任何信号。
+2. 这里存在一个副作用，即在之前用于range的for将阻塞，为了消除这种副作用，可以在调用signal.Stop之后，使用内建函数close将该chan关闭。
 
     
