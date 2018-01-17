@@ -16,3 +16,8 @@ func main() {
 	}
 	wg.Wait()
 }
+
+/*
+Because goroutines operate within the same address space as each other,and simply host functions,
+utilizing goroutines is a natural extension to writing nonconcurrent code.
+ */
