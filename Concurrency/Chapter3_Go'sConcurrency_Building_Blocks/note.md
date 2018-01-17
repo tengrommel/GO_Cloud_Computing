@@ -16,3 +16,7 @@ and then resumes them when they become unblocked.
 - Go's mechanism for hosting goroutines is an implementation of what's called an M:N scheduler, which means it maps
 M green threads to N OS threads.
 
+This is an interesting side note about how Go manages memory. 
+The Go runtime is observant enough　to know that a reference to the salutation variable is still being held,
+ and therefore will transfer the memory to the heap so that the goroutines can continue to access it.
+ 
