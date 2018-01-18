@@ -93,3 +93,28 @@ and if not, call its New member variable to create a new one.
 
 *Another common situation where a Pool is useful is for warming a cache of pre-allocated objects for 
 operations that must run as quickly as possible.*
+
+## Channel
+>Channels are one of the synchronization primitives in Go derived from Hoare's CSP.
+
+*While they can be used to synchronize access of the memory, they are best used to communicate information between goroutine.*
+
+1. Like a river, a channel serves as a conduit for a stream of information values may be passed along the channel, and then read out downstream.
+2. For this reason I usually end my chan variable names with the word "Stream" When using
+channels, you'll pass a value into a chan variable, and then somewhere else in your program
+read it off the channel.
+
+The goroutine that owns a channel should:
+1. Instantiate the channel.
+2. Perform writes, or pass ownership to another goroutine.
+3. Close the channel.
+4. Encapsulate the previous three things in this list and expose them via a reader channel.
+
+By assigning these responsibilities to channel owners, a few things happen:
+
+- Because we're the one initializing the channel, we remove the rish of deadlocking by writing to a nil channel.
+- Because we're the one initializing the channel, we remove the rish of panicing by closing a nil channel.
+- Because we’re the one who decides when the channel gets closed, we remove the risk of panicing by writing to a closed channel.
+- Because we’re the one who decides when the channel gets closed, we remove the risk of panicing by closing a channel more than once.
+- We wield the type checker at compile time to prevent improper writes to our channel.
+
