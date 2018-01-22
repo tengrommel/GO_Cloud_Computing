@@ -118,3 +118,23 @@ By assigning these responsibilities to channel owners, a few things happen:
 - Because we’re the one who decides when the channel gets closed, we remove the risk of panicing by closing a channel more than once.
 - We wield the type checker at compile time to prevent improper writes to our channel.
 
+As a consumer of a channel,I only have to worry about two things.
+
+- Knowing when a channel is closed.
+- Responsibly handling blocking for any reason.
+
+1. To address the first point we simply examine the second return value from the read operation, as
+discussed previously. 
+2. The second point is much harder to define because it depends on your algorithm: you may want to time out, you may want to stop reading when someone tells you to, or you
+may just be content to block for the lifetime of the process. 
+
+**The consumer function only has access to a read channel, and therefore only needs to know how it
+should handle blocking reads and channel closes.**
+
+## The select Statement
+> The select statement is the glue that binds channels together;
+
+It looks a bit like a switch block, doesn't it?
+> Just like a switch block, a select block encompasses a series of case statements that guard a series of statements; 
+however, that’s where the similarities end. Unlike switch blocks, case statements in a select block aren’t tested sequentially,
+and execution won’t automatically fall through if none of the criteria are met.
