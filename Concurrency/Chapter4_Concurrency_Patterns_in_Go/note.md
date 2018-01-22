@@ -89,3 +89,10 @@ The runtime handles multiplexing the goroutines onto any number of operating sys
 
 1. It is perfectly acceptable, albeit verbose, to write a select statement that performs this coupling; 
 2. however, sometimes you can’t know the number of done channels you’re working with at runtime.
+
+## Error Handling
+>In concurrent programs, error handling can be difficult to get right.
+
+**With concurrent processes, this question becomes a little more complex.Because a concurrent
+  process is operating independently of its parent or siblings, it can be difficult for it to reason about
+  what the right thing to do with the error is.**
