@@ -84,3 +84,8 @@ it’s one of the things that makes Go such a productive language.*
 
 The runtime handles multiplexing the goroutines onto any number of operating system threads so that we don't often have to worry about that level of abstraction.
 
+## The or-channel
+>At times you may find yourself wanting to combine one or more done channels into a single done channel that closes if any of its component channels close.
+
+1. It is perfectly acceptable, albeit verbose, to write a select statement that performs this coupling; 
+2. however, sometimes you can’t know the number of done channels you’re working with at runtime.
