@@ -143,5 +143,22 @@ What are the properties of a pipeline stage:
 ## Some Handy Generators
 > As a reminder, a generator for a pipeline is any function that converts a set of discrete values into a stream of values on channel.
  
+When you need to deal in specific types, you can place a stage that performs the type assertion for you.
+> The performance overhead of having an extra pipeline stage (and thus goroutine) and the type assertion are negligible, as we'll see in just a bit.
+
+## Fan-Out, Fan-In
+
+Sometimes, stages in your pipeline can be particularly computationally expensive.
+When this happens, upstream stages in your pipeline can become blocked while waiting for your expensive stages to complete.
+
+1. One of the interesting properties of pipelines is the ability they give you to operate on the stream of data using a combination of separate, often reorderable stages. 
+2. You can even reuse stages of the pipeline multiple times. 
+
+You might consider fanning out one of your stages if both the following apply:
+- It doesn't rely on values that the stage had calculated before.
+- It takes a long time to run.
+
+The property of order-independence is important because you have no guarantee in what order<br>
+concurrent copies of your stage will run, nor in what order they will return.
 
 
