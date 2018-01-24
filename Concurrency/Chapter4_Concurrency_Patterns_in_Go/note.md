@@ -96,3 +96,52 @@ The runtime handles multiplexing the goroutines onto any number of operating sys
 **With concurrent processes, this question becomes a little more complex.Because a concurrent
   process is operating independently of its parent or siblings, it can be difficult for it to reason about
   what the right thing to do with the error is.**
+
+When Go eschewed the popular exception model of errors, it made a statement that error handling was important, 
+and that as we develop our programs, we should give our error paths the same attention we give our algorithms. 
+
+*The key thing to note here is how we're coupled the potential result with the potential error.*
+
+1. This represents the complete set of possible outcomes created from the goroutine checkStatus, 
+and allows our main goroutine to make decisions about what to do when errors occur. 
+
+2. In broader terms, we’ve successfully separated the concerns of error handling from our producer goroutine.
+
+>This is desirable because the goroutine that spawned the producer goroutine — in this case our main
+goroutine — has more context about the running program, and can make more intelligent decisions about what to do with errors.
+
+## Pipelines
+>When you write a program, you probably don't sit down and write one long function -- at least I hope you don't.
+
+Partly to abstract away details that don't matter to the greater flow, and partly so that we can work
+on one area of code without affecting other areas.
+
+1. A pipeline is just another tool you can use to form an abstraction in your system.
+2. By using a pipeline, you separate the concerns of each stage, which provides numberous benefits.
+
+As mentioned previously, a stage is just something that takes data in, performs a transformation on it, and sends the data back out.
+
+What are the properties of a pipeline stage:
+
+1. A stage consumes and return the same type.
+2. A stage must be reified by the language so that it may be passed around.
+
+*Those of you familiar with functional programming may be nodding your head and thinking of terms like higher order functions and monads.*
+
+**Indeed, pipeline stages are very closely related to functional programming and can be considered a subset of monads**
+
+>Notice how each stage is taking a slice of data and returning a slice of data?
+
+1. These stages are performing what we call batch processing.
+2. This just means that they operate on chunks of data all at once instead of one discrete value at a time.
+3. There is another type of pipeline stage that performs stream processing.
+4. This means that the stage receives and emits one element at a time.
+
+## Best Practices for Constructing Pipelines
+> Channels are uniquely suited to constructing pipelines in Go because they fulfill all of our basic requirements.
+
+## Some Handy Generators
+> As a reminder, a generator for a pipeline is any function that converts a set of discrete values into a stream of values on channel.
+ 
+
+
