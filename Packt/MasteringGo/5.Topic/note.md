@@ -57,10 +57,18 @@ Hydra Chat System Pipeline
     - The empty interface is the parent of all types in Go
 
 - First law of reflection
+    - Reflection goes from interface value to reflection object
+    - At a basic level, reflection examines the type and value pair stored inside an interface variable
+    - reflect.TypeOf to get the type,reflect.ValueOf to get the value struct
 
 - Second law of reflection
+    - Reflection goes form reflection object to interface value
+    - value.Interface() to get the interface value from the reflect object
+    - Interface() is the inverse of reflect.ValueOf()
 
 - Third law of reflection
+    - To modify a reflection object,the value must be settable
+    - value.CanSet() to inspect if the reflect object value is settable
 
 
 # Operation Hydra: Create new file format
