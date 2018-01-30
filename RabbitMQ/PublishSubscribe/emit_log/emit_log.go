@@ -43,6 +43,12 @@ func main() {
 			ContentType:"text/plain",
 			Body: []byte(body),
 		})
+	/*
+	Firstly,whenever we connect to Rabbit we need a fresh,empty queue.
+	To do this we could create a queue with a random name,or,even better-let
+	the server choose a random queue name for us.
+	Secondly, once we disconnect the consumer the queue should be automatically deleted.
+	 */
 	failOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s", body)
 }
