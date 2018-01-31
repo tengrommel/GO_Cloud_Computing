@@ -20,4 +20,12 @@ func main() {
 		return
 	}
 	fmt.Println(string(b))
+
+	m := map[string]int{"item1":1,"item2":2}
+	bm, err := json.Marshal(m)
+	if err != nil{
+		fmt.Println("error", err)
+		return
+	}
+	fmt.Println(string(bm))
 }
