@@ -8,6 +8,10 @@
     - File watchers
 
 - JSON format
+    - What is JSON
+    - Encoding JSON
+    - Decoding JSON
+    - Writing a JSON configuration layer for Hydra
 
 - XML format
 
