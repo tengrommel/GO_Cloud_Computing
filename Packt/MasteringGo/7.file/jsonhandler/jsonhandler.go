@@ -28,4 +28,13 @@ func main() {
 		return
 	}
 	fmt.Println(string(bm))
+
+	s:=[]CrewMember{cm, CrewMember{2,"Jim",5,[]string{"TLT","RAR"}}}
+
+	bSlice, err := json.Marshal(&s)
+	if err!=nil{
+		fmt.Println("error:", err)
+	}
+	fmt.Println(string(bSlice))
+
 }
