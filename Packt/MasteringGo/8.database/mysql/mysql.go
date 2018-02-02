@@ -5,6 +5,7 @@ import (
 	"log"
 	"fmt"
 	"strings"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type crewMember struct {
