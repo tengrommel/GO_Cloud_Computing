@@ -96,7 +96,7 @@ func Update(ctx *gin.Context)  {
 	//	ctx.Status(http.StatusInternalServerError)
 	//	return
 	//}
-	if err :=db.Model(&todoItem).Where("id = ?", id).Update("title", "direct update yo!").Error; err != nil{
+	if err :=db.Model(&todoItem).Update("title", "direct update yo!").Error; err != nil{
 		fmt.Println(err)
 		ctx.Status(http.StatusInternalServerError)
 		return
