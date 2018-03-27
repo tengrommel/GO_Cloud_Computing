@@ -14,4 +14,8 @@ func main() {
 	fmt.Println(n.String())
 	fmt.Println(n.Seconds())
 	fmt.Println(n.Minutes())
+
+	t := time.Now()
+	t1 := t.Add(-time.Hour)
+	fmt.Println(t1.Sub(t))
 }
