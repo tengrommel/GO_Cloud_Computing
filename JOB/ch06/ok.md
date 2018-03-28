@@ -10,3 +10,4 @@
     type Writer inteface {
         Write(p []byte) (n int, err error)
     }
+
