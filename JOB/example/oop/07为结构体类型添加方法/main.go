@@ -22,6 +22,24 @@ func (p *Person)SetInfo(n string, s byte, a int)  {
 	p.age = a
 }
 
+type long int
+
+func (tmp long)test()  {
+	
+}
+
+//type pointer *int
+//
+//func (tmp pointer)test()  {
+//
+//} 接收者类型本身不能为指针
+
+type char byte
+
+func (c char) test() {
+
+} // 只要接收者类型不同，方法同名也不会产生命名重复
+
 func main() {
 	// 定义同时初始化
 	p := Person{"mike", 'm', 18}
